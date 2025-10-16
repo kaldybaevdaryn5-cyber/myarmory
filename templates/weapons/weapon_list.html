@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="workshop-container">
+    <!-- Заголовок и панель управления -->
+    <div class="workshop-header">
+        <h1 class="section-title">Каталог Арсенала</h1>
+        <div class="control-panel">
+            <div class="workshop-filters" id="workshop-filters">
+                <button class="filter-btn active" data-filter="all">Все</button>
+                {% for type in weapon_types %}
+                    <button class="filter-btn" data-filter="{{ type.slug }}">{{ type.name }}</button>
+                {% endfor %}
+            </div>
+            <div class="view-controls">
+                <div class="sort-control">
+                    <label for="sort-by">СОРТИРОВКА:</label>
+                    <select id="sort-by" name="sort">
+                        <option value="name-asc">Название (А-Я)</option>
+                        <option value="name-desc">Название (Я-А)</option>
+                        <option value="range-desc">Дальность (убыв.)</option>
+                        <option value="range-asc">Дальность (возр.)</option>
+                        <option value="rate-desc">Скорострельность (убыв.)</option>
+                        <option value="rate-asc">Скорострельность (возр.)</option>
+                    </select>
+                </div>
+                <!-- Переключатель вида (пока без JS) -->
+                <div class="view-switch">
+                    <button id="view-grid" class="active">■</button>
+                    <button id="view-list">☰</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Сетка с карточками -->
+    <div class="workshop-grid">
+        {% for weapon in weapons %}
+        <!-- ▼▼▼ ВОТ ПРАВИЛЬНАЯ, ИСПРАВЛЕННАЯ КАРТОЧКА ▼▼▼ -->
+        <a href="{% url 'weapon_detail' weapon.id %}" 
+           class="weapon-card-new" 
+           data-category="{{ weapon.weapon_type.slug }}"
+           data-name="{{ weapon.name }}"
+           data-range="{{ weapon.effective_range }}"
+           data-rate="{{ weapon.fire_rate }}">
+
+            <img src="{{ weapon.image.url }}" alt="{{ weapon.name }}">
+            
+            <div class="weapon-card-overlay">
+                <h3>{{ weapon.name }}</h3>
+                <span>{{ weapon.weapon_type.name }}</span>
+            </div>
+            
+            <div class="red-bar"></div>
+
+        </a> <!-- <--- ТЕПЕРЬ ССЫЛКА ЗАКРЫВАЕТСЯ ПРАВИЛЬНО -->
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="workshop-container">
+    <div class="workshop-header">
+        <h1 class="section-title">Каталог Техники</h1>
+        <!-- Фильтры -->
+        <div class="workshop-filters" id="vehicle-filters">
+            <button class="filter-btn active" data-filter="all">Вся техника</button>
+            <button class="filter-btn" data-filter="tanks">Бронетехника</button>
+            <button class="filter-btn" data-filter="aircrafts">Авиация</button>
+        </div>
+    </div>
+
+    <div class="workshop-grid">
+        <!-- Сначала выводим все танки -->
+        {% for tank in tanks %}
+        <a href="{% url 'tank_detail' tank.id %}" class="weapon-card-new vehicle-card" data-category="tanks">
+            <img src="{{ tank.image.url }}" alt="{{ tank.name }}">
+            <div class="weapon-card-overlay">
+                <h3>{{ tank.name }}</h3>
+                <span>{{ tank.country }}</span>
+            </div>
+            <div class="red-bar"></div>
+        </a>
+        {% endfor %}
+
+        <!-- Затем выводим всю авиацию -->
+        {% for aircraft in aircrafts %}
+        <a href="{% url 'aircraft_detail' aircraft.id %}" class="weapon-card-new vehicle-card" data-category="aircrafts">
+            <img src="{{ aircraft.image.url }}" alt="{{ aircraft.name }}">
+            <div class="weapon-card-overlay">
+                <h3>{{ aircraft.name }}</h3>
+                <span>{{ aircraft.country }}</span>
+            </div>
+            <div class="red-bar"></div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

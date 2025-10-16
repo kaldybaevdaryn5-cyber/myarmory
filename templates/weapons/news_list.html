@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="padding: 50px 20px;">
+    <h1 class="section-title">Новости Оружейного Мира</h1>
+
+    <!-- Этот div будет нашей сеткой -->
+    <div class="news-grid">
+        {% for article in articles %}
+        <!-- К карточке-ссылке добавляем класс для JS-анимации -->
+        <a href="{% url 'news_detail' article.slug %}" class="card news-card-animated">
+            {% if article.image %}
+            <div class="card-image-wrapper" style="height: 220px; overflow: hidden;">
+                <img src="{{ article.image.url }}" alt="{{ article.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            {% endif %}
+            <div class="card-content">
+                <p style="font-size: 0.8em; color: var(--text-color-muted); margin-bottom: 10px;">{{ article.published_date|date:"d F Y" }}</p>
+                <h3>{{ article.title }}</h3>
+                <p>{{ article.content|striptags|truncatewords:20 }}</p>
+            </div>
+            <div class="card-link">→</div>
+        </a>
+        {% empty %}
+        <p>Новостей пока нет.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

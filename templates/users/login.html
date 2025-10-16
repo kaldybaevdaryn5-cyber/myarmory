@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; padding: 60px 20px; text-align: center;">
+    
+    <h2 class="section-title fade-in-item" style="text-align: center; margin-bottom: 30px;">Вход в аккаунт</h2>
+
+    <form method="POST" class="fade-in-item" style="background-color: #191A1F; padding: 40px; border-radius: 15px; border: 1px solid var(--border-color);">
+        {% csrf_token %}
+        
+        <div class="form-group" style="text-align: left;">
+            <label for="{{ form.username.id_for_label }}">Имя пользователя:</label>
+            {{ form.username }}
+        </div>
+
+        <div class="form-group" style="text-align: left;">
+            <label for="{{ form.password.id_for_label }}">Пароль:</label>
+            {{ form.password }}
+        </div>
+        
+        {% if form.errors %}
+            <div class="form-group">
+                <ul class="errorlist">
+                    <li>Пожалуйста, введите правильные имя пользователя и пароль.</li>
+                </ul>
+            </div>
+        {% endif %}
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Войти</button>
+    </form>
+
+    <div class="fade-in-item" style="margin-top: 25px;">
+        <p style="color: var(--text-color-muted);">
+            Еще нет аккаунта? <a href="{% url 'register' %}">Зарегистрируйтесь</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

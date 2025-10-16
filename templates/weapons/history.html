@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 50px 20px;">
+    <div style="text-align: center; margin-bottom: 80px;">
+        <h1 class="section-title" style="text-align: center; font-size: 2.5em;">Цепь Эволюции</h1>
+        <p style="color: var(--text-color-muted); margin-top: -30px;">От камня и палки до интеллектуальных систем</p>
+    </div>
+
+    <div class="timeline-chain">
+        <!-- Цикл остался тот же -->
+        {% for era in eras %}
+        <div class="timeline-node">
+            <!-- Большой красный круг с годом -->
+            <div class="timeline-year"><span>{{ era.year }}</span></div>
+            
+            <!-- Карточка с контентом -->
+            <div class="timeline-node-content" {% if era.era_image %}style="background-image: linear-gradient(rgba(31, 32, 37, 0.85), rgba(31, 32, 37, 0.95)), url({{ era.era_image.url }}); background-size: cover;"{% endif %}>
+                <h2>{{ era.title }}</h2>
+                <p>{{ era.description }}</p>
+                
+                <div class="weapon-grid">
+                    {% for weapon in era.historical_weapons.all %}
+                    <div class="weapon-card">
+                        <img src="{{ weapon.weapon_image.url }}" alt="{{ weapon.name }}">
+                        <div class="weapon-card-info">
+                            <h3>{{ weapon.name }}</h3>
+                            <p>{{ weapon.description }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

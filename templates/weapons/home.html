@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+   <!-- СЕКЦИЯ "В ЦЕНТРЕ ВНИМАНИЯ" (С КАРТИНКОЙ И МОДАЛЬНЫМ ОКНОМ) -->
+<section class="hero">
+    <div class="hero-model">
+    <model-viewer 
+        src="{% static 'models/ak47_model/scene.gltf' %}"
+        alt="АК-47"
+        camera-controls
+        auto-rotate
+        ar
+        environment-image="neutral"
+        shadow-intensity="1.5"
+        camera-orbit="-20deg 75deg 1.8m">
+    </model-viewer>
+
+    <!-- ▼▼▼ ВОТ ЭТИ ЭЛЕМЕНТЫ МЫ ДОБАВЛЯЕМ ▼▼▼ -->
+    <div class="hud-line-vertical">AVTOMAT KALASHNIKOV</div>
+    <div class="hud-specs">
+        <span>КАЛИБР: 7.62x39мм</span>
+        <span>ДАЛЬНОСТЬ: 300м</span>
+    </div>
+    <div class="hud-corner top-left"></div>
+    <div class="hud-corner bottom-right"></div>
+    <!-- ▲▲▲ КОНЕЦ НОВЫХ ЭЛЕМЕНТОВ ▲▲▲ -->
+</div>
+    <div class="hero-content">
+        <div class="hero-intro">В центре внимания</div>
+        <h1 class="hero-title">Легенда: <span>АК-47</span></h1>
+        <p class="hero-description">
+            Узнайте больше о самом известном автомате в мире. Его история, характеристики и модификации.
+        </p>
+        <a href="#" class="btn btn-primary">Исследовать</a>
+    </div>
+</section>
+
+<!-- СЕКЦИЯ "ПОСЛЕДНИЕ ПОСТУПЛЕНИЯ / НОВИНКИ" -->
+<section class="new-arrivals">
+    <h2 class="section-title">Последние поступления/Новинки</h2>
+    <div class="cards-grid">
+
+        {% for weapon in weapons %}
+<a href="{% url 'weapon_detail' weapon.id %}" class="card">
+    <div class="card-image-wrapper">
+        <img src="{{ weapon.image.url }}" alt="{{ weapon.name }}">
+    </div>
+    <div class="card-content">
+        <h3>{{ weapon.name }}</h3>
+        <p>{{ weapon.description|truncatewords:10 }}</p>
+    </div>
+    <div class="card-link">→</div>
+</a>
+{% endfor %}
+
+    </div>
+</section>
+<!-- ОБЪЕДИНЕННАЯ СЕКЦИЯ "КАТЕГОРИИ И ИСТОРИЯ" -->
+<section class="categories-history">
+    
+    <!-- Сначала идет общий заголовок -->
+    <h2 class="section-title">Популярные категории</h2>
+
+    <div class="categories-history-grid">
+        
+        <!-- Затем блок с карточками категорий (уже без своего заголовка) -->
+        <div class="category-grid">
+    {% for type in weapon_types %}
+    <a href="{% url 'weapon_category' type.slug %}" class="category-item">
+        <!-- ▼▼▼ ВОТ НОВЫЙ БЛОК ДЛЯ ИКОНКИ ▼▼▼ -->
+        <div class="category-item-icon-wrapper">
+    <img src="{% static 'images/'|add:type.icon_filename %}" alt="{{ type.name }} icon">
+</div>
+        <!-- ▲▲▲ КОНЕЦ НОВОГО БЛОКА ▲▲▲ -->
+        
+        <div class="category-item-content">
+            <span>{{ type.name }}</span>
+            <p>{{ type.description }}</p>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+        <!-- И блок с Историей -->
+        <div class="history-content">
+            <h2>История оружия</h2>
+            <p>Путь от кремня до лазера</p>
+            <a href="#" class="btn btn-primary">Читать далее</a>
+        </div>
+
+    </div>
+</section>
+<!-- 2. СКРЫТЫЙ БЛОК С 3D-МОДЕЛЬЮ (появится по клику) -->
+
+
+    <!-- Сюда позже добавим остальные секции -->
+
+</div>
+{% endblock %}

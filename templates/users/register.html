@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; padding: 60px 20px; text-align: center;">
+
+    <h2 class="section-title fade-in-item" style="text-align: center; margin-bottom: 30px;">Создание аккаунта</h2>
+
+    <!-- ▼▼▼ ЗАМЕНИ СТАРУЮ ФОРМУ НА ЭТУ ▼▼▼ -->
+<!-- ▼▼▼ ЗАМЕНИ СТАРУЮ ФОРМУ НА ЭТУ ИСПРАВЛЕННУЮ ВЕРСИЮ ▼▼▼ -->
+<form method="POST" class="fade-in-item" style="background-color: #191A1F; padding: 40px; border-radius: 15px; border: 1px solid var(--border-color);">
+    {% csrf_token %}
+    
+    <!-- Поле Username (остается без изменений) -->
+    <div class="form-group" style="text-align: left;">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        <div class="form-hints" id="username-hints">
+            <p class="hint" id="user-hint-length">✓ Длина более 3 символов</p>
+            <p class="hint" id="user-hint-chars">✓ Только латинские буквы, цифры и _</p>
+        </div>
+        {{ form.username.errors }}
+    </div>
+
+    <!-- Поле Password (ИСПРАВЛЕНО) -->
+    <div class="form-group" style="text-align: left;">
+        <!-- Было form.password, стало form.password1 -->
+        {{ form.password1.label_tag }}
+        {{ form.password1 }}
+        <div class="form-hints" id="password-hints">
+            <p class="hint" id="pass-hint-length">✓ Минимум 8 символов</p>
+            <p class="hint" id="pass-hint-number">✓ Содержит хотя бы одну цифру</p>
+            <p class="hint" id="pass-hint-letter">✓ Содержит хотя бы одну букву</p>
+        </div>
+        {{ form.password1.errors }}
+    </div>
+
+    <!-- Поле Password confirmation (остается без изменений) -->
+    <div class="form-group" style="text-align: left;">
+        {{ form.password2.label_tag }}
+        {{ form.password2 }}
+        <div class="form-hints" id="password2-hints">
+            <p class="hint" id="pass2-hint-match">✓ Пароли совпадают</p>
+        </div>
+        {{ form.password2.errors }}
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 20px;">Зарегистрироваться</button>
+</form>
+    
+    <div class="fade-in-item" style="margin-top: 25px;">
+        <p style="color: var(--text-color-muted);">
+            Уже есть аккаунт? <a href="{% url 'login' %}">Войдите</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

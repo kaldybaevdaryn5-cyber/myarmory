@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="detail-container-cinematic">
+
+    <!-- БЛОК С 3D-МОДЕЛЬЮ ИЛИ КАРТИНКОЙ НА ВСЮ ШИРИНУ -->
+    <div class="cinematic-viewer animated-item">
+        {% if tank.model_path %}
+            <model-viewer src="{% static tank.model_path %}" alt="3D модель {{ tank.name }}" camera-controls auto-rotate ar environment-image="neutral" shadow-intensity="1.5" camera-orbit="-20deg 75deg 3m"></model-viewer>
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner bottom-right"></div>
+        {% else %}
+            <img src="{{ tank.image.url }}" alt="{{ tank.name }}">
+        {% endif %}
+    </div>
+
+    <!-- КОНТЕНТ ПОД МОДЕЛЬЮ -->
+    <div class="cinematic-content">
+        <!-- "Хлебные крошки" -->
+        <!-- ▼▼▼ ЗАМЕНИ СТАРЫЙ stats-grid НА ЭТОТ ▼▼▼ -->
+<div class="stats-grid-tech animated-item">
+    <!-- Вооружение -->
+    <div class="tech-stat-item">
+        <img class="stat-icon" src="{% static 'images/icon-cannon.svg' %}" alt="">
+        <div class="stat-text">
+            <span>Основное вооружение</span>
+            <strong>{{ tank.main_armament }}</strong>
+        </div>
+    </div>
+    <!-- Броня -->
+    <div class="tech-stat-item">
+        <img class="stat-icon" src="{% static 'images/icon-shield.svg' %}" alt="">
+        <div class="stat-text">
+            <span>Броня</span>
+            <strong>{{ tank.armor }} мм</strong>
+        </div>
+    </div>
+    <!-- Скорость (Спидометр) -->
+    <div class="tech-stat-item">
+        <img class="stat-icon" src="{% static 'images/icon-speed.svg' %}" alt="">
+        <div class="stat-text">
+            <span>Макс. скорость</span>
+            <div class="speedometer" data-value="{{ tank.max_speed }}" data-max="80">
+                <svg viewBox="0 0 36 36" class="speedometer-svg">
+                    <path class="speedo-track" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    <path class="speedo-bar" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                </svg>
+                <strong class="speedo-value">{{ tank.max_speed }} км/ч</strong>
+            </div>
+        </div>
+    </div>
+</div>
+        
+        <h1 class="animated-item">{{ tank.name }}</h1>
+        <p class="detail-manufacturer animated-item">
+            Страна: <strong>{{ tank.country }}</strong>
+        </p>
+        <p class="animated-item">{{ tank.description }}</p>
+
+        <h3 class="animated-item">Характеристики</h3>
+        <div class="stats-grid animated-item">
+            <div class="stat-item"><span>Основное вооружение</span><strong>{{ tank.main_armament }}</strong></div>
+            <div class="stat-item"><span>Броня</span><strong>{{ tank.armor }} мм</strong></div>
+            <div class="stat-item"><span>Макс. скорость</span><strong>{{ tank.max_speed }} км/ч</strong></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

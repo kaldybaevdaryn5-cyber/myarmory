@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="detail-container-cinematic">
+
+    <!-- БЛОК С 3D-МОДЕЛЬЮ ИЛИ КАРТИНКОЙ НА ВСЮ ШИРИНУ -->
+    <div class="cinematic-viewer animated-item">
+        {% if weapon.model_path %}
+            <model-viewer 
+                src="{% static weapon.model_path %}"
+                alt="3D модель {{ weapon.name }}"
+                camera-controls
+                auto-rotate
+                ar
+                environment-image="neutral"
+                shadow-intensity="1.5"
+                camera-orbit="-20deg 75deg 0.8m"> <!-- Расстояние можно подбирать -->
+            </model-viewer>
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner bottom-right"></div>
+        {% else %}
+            <img src="{{ weapon.image.url }}" alt="{{ weapon.name }}">
+        {% endif %}
+    </div>
+
+    <!-- КОНТЕНТ ПОД МОДЕЛЬЮ -->
+    <div class="cinematic-content">
+        <!-- "Хлебные крошки" -->
+        <div class="breadcrumbs animated-item">
+            <a href="{% url 'weapon_list' %}">Арсенал</a> / 
+            <a href="{% url 'weapon_category' weapon.weapon_type.slug %}">{{ weapon.weapon_type.name }}</a> /
+            <span>{{ weapon.name }}</span>
+        </div>
+        
+        <h1 class="animated-item">{{ weapon.name }}</h1>
+        <p class="detail-manufacturer animated-item">
+            Производитель: <strong>{{ weapon.manufacturer.name }} ({{ weapon.manufacturer.country }})</strong>
+        </p>
+        <p class="animated-item">{{ weapon.description }}</p>
+
+        <h3 class="animated-item">Характеристики</h3>
+        <div class="stats-grid animated-item">
+            <div class="stat-item"><span>Тип</span><strong>{{ weapon.weapon_type.name }}</strong></div>
+            <div class="stat-item stat-item-ammo">
+                <div class="ammo-text"><span>Калибр</span><strong>{{ weapon.caliber }}</strong></div>
+                {% if weapon.bullet_image %}<div class="ammo-image"><img src="{{ weapon.bullet_image.url }}" alt="Патрон"></div>{% endif %}
+            </div>
+            <div class="stat-item stat-bar-item">
+                <span>Скорострельность</span>
+                <div class="stat-bar" data-value="{{ weapon.fire_rate }}" data-max="1000">
+                    <div class="bar-fill"></div><strong>{{ weapon.fire_rate }} выстр/мин</strong>
+                </div>
+            </div>
+            <div class="stat-item stat-bar-item">
+                <span>Эффективная дальность</span>
+                <div class="stat-bar" data-value="{{ weapon.effective_range }}" data-max="1500">
+                    <div class="bar-fill"></div><strong>{{ weapon.effective_range }} м</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Блок "Смотрите также" -->
+    {% if related_weapons %}
+    <div class="related-section cinematic-content">
+        <h2 class="section-title animated-item">Смотрите также</h2>
+        <div class="cards-grid">
+            {% for rel_weapon in related_weapons %}
+            <a href="{% url 'weapon_detail' rel_weapon.id %}" class="card animated-item">
+                <div class="card-image-wrapper"><img src="{{ rel_weapon.image.url }}" alt="{{ rel_weapon.name }}"></div>
+                <div class="card-content">
+                    <h3>{{ rel_weapon.name }}</h3>
+                    <p>{{ rel_weapon.description|truncatewords:10 }}</p>
+                </div>
+                <div class="card-link">→</div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock %}

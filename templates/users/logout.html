@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 600px; padding: 80px 20px; text-align: center;">
+    <h2 class="section-title" style="text-align: center;">Вы успешно вышли из системы</h2>
+    <p style="color: var(--text-color-muted); margin-bottom: 40px;">
+        Спасибо, что посетили наш сайт. Ждем вас снова!
+    </p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Войти снова</a>
+</div>
+{% endblock %}

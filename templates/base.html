@@ -1,0 +1,106 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оружейный Мир</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
+    <!-- Скрипт для 3D-моделей -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container">
+            <a href="{% url 'home' %}" class="logo">ОРУЖЕЙНЫЙ <span>МИР</span></a>
+            
+            <nav class="main-nav">
+                <ul>
+    <li><a href="{% url 'home' %}" {% if request.resolver_match.url_name == 'home' %}class="active"{% endif %}>Главная</a></li>
+    <li>
+        <a href="{% url 'weapon_list' %}"
+           {% if request.resolver_match.url_name in "weapon_list weapon_category weapon_detail" %}class="active"{% endif %}>
+           Оружие
+        </a>
+    </li>
+    <!-- ▼▼▼ ЗАМЕНИ СТАРЫЙ БЛОК НА ЭТОТ ПРАВИЛЬНЫЙ ▼▼▼ -->
+<li>
+    <a href="{% url 'vehicle_list' %}"
+       {% if request.resolver_match.url_name in "vehicle_list tank_detail aircraft_detail" %}class="active"{% endif %}>
+       Техника
+    </a>
+</li>
+    <li><a href="{% url 'history' %}" {% if request.resolver_match.url_name == 'history' %}class="active"{% endif %}>История</a></li>
+    <li><a href="{% url 'news_list' %}" {% if request.resolver_match.url_name in "news_list news_detail" %}class="active"{% endif %}>Новости</a></li>
+    <li><a href="{% url 'contacts' %}" {% if request.resolver_match.url_name == 'contacts' %}class="active"{% endif %}>Контакты</a></li>
+</ul>
+            </nav>
+
+            <div class="user-actions" style="display: flex; align-items: center; gap: 20px;">
+                {% if user.is_authenticated %}
+    <!-- Если пользователь вошел -->
+    <div class="profile-dropdown-wrapper">
+        <!-- Кнопка, открывающая меню -->
+        <div class="user-greeting" id="profile-menu-button">
+            <img src="{% static 'images/icon-user.svg' %}" alt="Профиль">
+            <span>{{ user.username }}</span>
+        </div>
+        
+        <!-- Само выпадающее меню (изначально скрыто) -->
+        <div class="profile-dropdown-menu" id="profile-menu">
+            <a href="{% url 'profile' %}" class="dropdown-item">Профиль</a>
+            <a href="{% url 'settings' %}" class="dropdown-item">Настройки</a>
+            <div class="dropdown-divider"></div>
+            <!-- Форма выхода теперь тоже здесь -->
+            <form action="{% url 'logout' %}" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="dropdown-item dropdown-item-logout">Выход</button>
+            </form>
+        </div>
+    </div>
+{% else %}
+    <!-- Если пользователь - гость (этот блок без изменений) -->
+    <a href="{% url 'login' %}" style="font-weight: 600; color: var(--text-color-muted);">Вход</a>
+    <a href="{% url 'register' %}" class="btn btn-primary">Регистрация</a>
+{% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        {% block content %}
+        <!-- Сюда будет вставляться контент дочерних страниц -->
+        {% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <a href="{% url 'home' %}" class="logo">ОРУЖЕЙНЫЙ <span>МИР</span></a>
+                <nav class="footer-nav">
+                    <!-- Ссылки в подвале теперь тоже правильные -->
+                    <a href="{% url 'home' %}">Главная</a>
+                    <a href="{% url 'weapon_category' 'rifles' %}">Винтовки</a>
+                    <a href="{% url 'weapon_category' 'shotguns' %}">Дробовики</a>
+                    <a href="{% url 'weapon_category' 'assault-rifles' %}">Автоматы</a>
+                </nav>
+                <div class="footer-copy">
+                    <p>&copy; {% now "Y" %} ОРУЖЕЙНЫЙ МИР</p>
+                    <p>Условия релиза</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>

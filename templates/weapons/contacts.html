@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container" style="padding: 50px 20px; max-width: 800px; margin: 0 auto;">
+    <h1 class="section-title" style="text-align: center; font-size: 2.5em;">Свяжитесь с нами</h1>
+    <p style="text-align: center; color: var(--text-color-muted); margin-top: -30px; margin-bottom: 50px;">
+        Мы всегда открыты для предложений и сотрудничества.
+    </p>
+
+    <div class="contact-info" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; background-color: #191A1F; padding: 40px; border-radius: 15px;">
+        <div>
+            <h3 style="color: var(--primary-color); margin-top: 0;">Наша почта</h3>
+            <p>Вы можете написать нам по любым вопросам на электронный адрес:</p>
+            <a href="mailto:info@myarmory.com" style="font-weight: 600; font-size: 1.1em;">info@myarmory.com</a>
+        </div>
+        <div>
+            <h3 style="color: var(--primary-color); margin-top: 0;">Социальные сети</h3>
+            <p>Следите за нашими обновлениями в социальных сетях:</p>
+            <div style="display: flex; gap: 20px; font-weight: 600;">
+                <a href="#">Telegram</a>
+                <a href="#">YouTube</a>
+                <a href="#">VKontakte</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

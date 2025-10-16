@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="detail-container-cinematic">
+
+    <!-- БЛОК С 3D-МОДЕЛЬЮ ИЛИ КАРТИНКОЙ НА ВСЮ ШИРИНУ -->
+    <div class="cinematic-viewer animated-item">
+        {% if aircraft.model_path %}
+            <model-viewer src="{% static aircraft.model_path %}" alt="3D модель {{ aircraft.name }}" camera-controls auto-rotate ar environment-image="neutral" shadow-intensity="1.5" camera-orbit="-20deg 75deg 4m"></model-viewer>
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner bottom-right"></div>
+        {% else %}
+            <img src="{{ aircraft.image.url }}" alt="{{ aircraft.name }}">
+        {% endif %}
+    </div>
+
+    <!-- КОНТЕНТ ПОД МОДЕЛЬЮ -->
+    <!-- ▼▼▼ ЗАМЕНИ СТАРЫЙ БЛОК breadcrumbs НА ЭТОТ ▼▼▼ -->
+<div class="breadcrumbs animated-item">
+    <a href="{% url 'vehicle_list' %}">Техника</a> /
+    <span>{{ aircraft.name }}</span>
+</div>
+        
+        <h1 class="animated-item">{{ aircraft.name }}</h1>
+        <p class="detail-manufacturer animated-item">
+            Страна: <strong>{{ aircraft.country }}</strong>
+        </p>
+        <p class="animated-item">{{ aircraft.description }}</p>
+
+        <h3 class="animated-item">Характеристики</h3>
+        <!-- ▼▼▼ ЗАМЕНИ СТАРЫЙ stats-grid НА ЭТОТ ▼▼▼ -->
+<div class="stats-grid animated-item">
+    <!-- Вооружение (поле TextField, поэтому используем |linebreaks) -->
+    <div class="stat-item weapon-armament" style="grid-column: 1 / -1;">
+        <!-- ▼▼▼ ДОБАВЬ ИКОНКУ СЮДА ▼▼▼ -->
+        <img class="stat-icon" src="{% static 'images/icon-missile.svg' %}" alt="">
+        <div class="stat-text">
+            <span>Вооружение</span>
+            <strong>{{ aircraft.armament|linebreaks }}</strong>
+        </div>
+    </div>
+    <!-- Скорость (анимированная полоска) -->
+    <div class="tech-stat-item">
+        <img class="stat-icon" src="{% static 'images/icon-speed.svg' %}" alt="">
+        <div class="stat-text">
+            <span>Макс. скорость</span>
+            <div class="stat-bar" data-value="{{ aircraft.max_speed }}" data-max="3000"> <!-- Макс. скорость для сравнения ~3000 км/ч -->
+                <div class="bar-fill"></div>
+                <strong>{{ aircraft.max_speed }} км/ч</strong>
+            </div>
+        </div>
+    </div>
+    <!-- Потолок (анимированная полоска) -->
+    <div class="tech-stat-item">
+        <img class="stat-icon" src="{% static 'images/icon-altitude.svg' %}" alt="">
+        <div class="stat-text">
+            <span>Практический потолок</span>
+            <div class="stat-bar" data-value="{{ aircraft.ceiling }}" data-max="25000"> <!-- Макс. потолок ~25000 м -->
+                <div class="bar-fill"></div>
+                <strong>{{ aircraft.ceiling }} м</strong>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

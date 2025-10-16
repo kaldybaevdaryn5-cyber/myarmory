@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+
+    <!-- Заголовок страницы с названием категории -->
+    <section style="padding: 40px 0;">
+        <h1 class="section-title">Категория: {{ category.name }}</h1>
+        <p style="color: var(--text-color-muted); margin-top: -30px;">{{ category.description }}</p>
+    </section>
+
+    <!-- Сетка с карточками оружия (такая же, как на главной) -->
+    <section class="new-arrivals">
+        <div class="cards-grid">
+            {% for weapon in weapons %}
+            <a href="{% url 'weapon_detail' weapon.id %}" class="card">
+                <div class="card-image-wrapper">
+                    <img src="{{ weapon.image.url }}" alt="{{ weapon.name }}">
+                </div>
+                <div class="card-content">
+                    <h3>{{ weapon.name }}</h3>
+                    <p>{{ weapon.description|truncatewords:10 }}</p>
+                </div>
+                <div class="card-link">→</div>
+            </a>
+            {% empty %}
+                <!-- Это сообщение появится, если в категории нет оружия -->
+                <p style="color: var(--text-color-muted); font-size: 1.1em;">В этой категории пока нет оружия.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
+{% endblock %}

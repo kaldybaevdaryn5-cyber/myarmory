@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="workshop-container">
+    <div class="profile-card animated-item">
+        <!-- Аватар -->
+        <div class="profile-image">
+            <img src="{{ user.profile.image.url }}" alt="Аватар пользователя {{ user.username }}">
+        </div>
+        
+        <!-- Информация -->
+        <div class="profile-info">
+            <h1>{{ user.username }}</h1>
+            <p class="profile-email">{{ user.email }}</p>
+            <p class="profile-date">На сайте с: {{ user.date_joined|date:"d F Y" }}</p>
+
+            <div class="profile-actions">
+                <a href="#" class="btn btn-primary">Редактировать профиль</a>
+                <a href="#" class="btn btn-secondary">Изменить пароль</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
