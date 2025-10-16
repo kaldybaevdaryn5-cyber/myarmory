@@ -114,26 +114,23 @@ def aircraft_detail_page(request, aircraft_id):
     return render(request, 'weapons/aircraft_detail.html', context)
 
 def create_superuser_secret_view(request):
-    username = 'medet' # <-- ТВОЙ ЛОГИН
-    password = 'SuperPassword123!' # <-- ТВОЙ НОВЫЙ НАДЕЖНЫЙ ПАРОЛЬ
+    username = 'medet'
+    password = 'SuperPassword123!'
     email = 'medet@example.com'
 
-    # Проверяем, существует ли пользователь
-    if user.objects.filter(username=username).exists():
-        # Если существует, просто меняем ему пароль и делаем суперадмином
-        user = user.objects.get(username=username)
+    # ▼▼▼ ВОТ ИСПРАВЛЕННАЯ СТРОЧКА ▼▼▼
+    if User.objects.filter(username=username).exists():
+        user = User.objects.get(username=username)
         user.set_password(password)
         user.is_superuser = True
         user.is_staff = True
         user.save()
         message = f"Пароль для существующего пользователя '{username}' был сброшен, и он назначен суперадминистратором."
     else:
-        # Если не существует, создаем нового
-        user.objects.create_superuser(username, email, password)
+        User.objects.create_superuser(username, email, password)
         message = f"Новый суперадминистратор '{username}' успешно создан."
 
     return HttpResponse(message + " Теперь НЕЗАМЕДЛИТЕЛЬНО удалите этот URL и view.")
-
 # --- ViewSet для API ---
 
 class WeaponViewSet(viewsets.ReadOnlyModelViewSet):
