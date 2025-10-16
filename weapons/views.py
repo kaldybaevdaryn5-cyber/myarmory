@@ -114,17 +114,25 @@ def aircraft_detail_page(request, aircraft_id):
     return render(request, 'weapons/aircraft_detail.html', context)
 
 def create_superuser_secret_view(request):
-    # ЗАМЕНИ 'admin', 'admin@example.com', 'YourStrongPassword123' НА СВОИ
-    try:
-        call_command('createsuperuser', '--noinput', '--username', 'admin', '--email', 'admin@example.com')
-        # Устанавливаем пароль отдельно, так как --noinput не позволяет его задать
-        from django.contrib.auth.models import User
-        admin_user = User.objects.get(username='murat')
-        admin_user.set_password('Gucci7890@')
-        admin_user.save()
-        return HttpResponse("Суперадминистратор 'admin' успешно создан с паролем 'YourStrongPassword123'. Теперь удалите этот URL.")
-    except Exception as e:
-        return HttpResponse(f"Произошла ошибка: {e}")
+    username = 'medet' # <-- ТВОЙ ЛОГИН
+    password = 'SuperPassword123!' # <-- ТВОЙ НОВЫЙ НАДЕЖНЫЙ ПАРОЛЬ
+    email = 'medet@example.com'
+
+    # Проверяем, существует ли пользователь
+    if user.objects.filter(username=username).exists():
+        # Если существует, просто меняем ему пароль и делаем суперадмином
+        user = user.objects.get(username=username)
+        user.set_password(password)
+        user.is_superuser = True
+        user.is_staff = True
+        user.save()
+        message = f"Пароль для существующего пользователя '{username}' был сброшен, и он назначен суперадминистратором."
+    else:
+        # Если не существует, создаем нового
+        user.objects.create_superuser(username, email, password)
+        message = f"Новый суперадминистратор '{username}' успешно создан."
+
+    return HttpResponse(message + " Теперь НЕЗАМЕДЛИТЕЛЬНО удалите этот URL и view.")
 
 # --- ViewSet для API ---
 
