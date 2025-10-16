@@ -6,7 +6,7 @@ from django.core.management import call_command
 # API imports
 from rest_framework import viewsets
 from .serializers import WeaponSerializer
-
+from django.contrib.auth.models import User
 # --- Views for main site functionality ---
 
 def home_page(request):
@@ -114,11 +114,10 @@ def aircraft_detail_page(request, aircraft_id):
     return render(request, 'weapons/aircraft_detail.html', context)
 
 def create_superuser_secret_view(request):
-    username = 'medet'
+    username = 'medet' 
     password = 'SuperPassword123!'
     email = 'medet@example.com'
 
-    # ▼▼▼ ВОТ ИСПРАВЛЕННАЯ СТРОЧКА ▼▼▼
     if User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
         user.set_password(password)
