@@ -35,8 +35,8 @@ class Weapon(models.Model):
     caliber = models.CharField(max_length=50, verbose_name="Калибр")
     fire_rate = models.PositiveIntegerField(verbose_name="Скорострельность (выстр/мин)")
     effective_range = models.PositiveIntegerField(verbose_name="Эффективная дальность (м)")
-    image = models.ImageField(upload_to='weapons_images/', verbose_name="Изображение оружия")
-    bullet_image = models.ImageField(upload_to='bullets_images/', verbose_name="Изображение патрона", blank=True, null=True)
+    #image = models.ImageField(upload_to='weapons_images/', verbose_name="Изображение оружия")
+    #bullet_image = models.ImageField(upload_to='bullets_images/', verbose_name="Изображение патрона", blank=True, null=True)
     model_path = models.CharField(max_length=200, blank=True, null=True, verbose_name="Путь к 3D модели (от папки static)")
 
     def __str__(self):
@@ -57,7 +57,7 @@ class HistoricalEra(models.Model):
     year = models.CharField(max_length=50, verbose_name="Год или период (напр., 'XV век')")
     title = models.CharField(max_length=200, verbose_name="Название эпохи")
     description = models.TextField(verbose_name="Описание эпохи")
-    era_image = models.ImageField(upload_to='history_images/', blank=True, null=True, verbose_name="Фоновое изображение для карточки")
+    #era_image = models.ImageField(upload_to='history_images/', blank=True, null=True, verbose_name="Фоновое изображение для карточки")
     
      # ▼▼▼ ДОБАВЬ ЭТО НОВОЕ ПОЛЕ ▼▼▼
     sort_order = models.IntegerField(default=0, verbose_name="Порядок сортировки (чем меньше, тем раньше)")
@@ -75,7 +75,7 @@ class HistoricalWeapon(models.Model):
     era = models.ForeignKey(HistoricalEra, on_delete=models.CASCADE, related_name="historical_weapons", verbose_name="Эпоха")
     name = models.CharField(max_length=200, verbose_name="Название оружия")
     description = models.TextField(verbose_name="Краткая история")
-    weapon_image = models.ImageField(upload_to='history_images/', verbose_name="Изображение оружия")
+    #weapon_image = models.ImageField(upload_to='history_images/', verbose_name="Изображение оружия")
 
     class Meta:
         verbose_name = "Историческое оружие"
@@ -92,7 +92,7 @@ class NewsArticle(models.Model):
     slug = models.SlugField(max_length=200, unique=True, verbose_name="URL (slug)")
     content = models.TextField(verbose_name="Содержание статьи")
     published_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата публикации")
-    image = models.ImageField(upload_to='news_images/', blank=True, null=True, verbose_name="Изображение")
+    #image = models.ImageField(upload_to='news_images/', blank=True, null=True, verbose_name="Изображение")
 
     class Meta:
         verbose_name = "Новость"
@@ -113,7 +113,7 @@ class Tank(models.Model):
     armor = models.CharField(max_length=100, verbose_name="Броня (мм)")
     max_speed = models.PositiveIntegerField(verbose_name="Макс. скорость (км/ч)")
     
-    image = models.ImageField(upload_to='tanks_images/', verbose_name="Изображение")
+    #image = models.ImageField(upload_to='tanks_images/', verbose_name="Изображение")
     model_path = models.CharField(max_length=200, blank=True, null=True, verbose_name="Путь к 3D модели (от папки static)")
     
     class Meta:
@@ -132,7 +132,7 @@ class Aircraft(models.Model):
     max_speed = models.PositiveIntegerField(verbose_name="Макс. скорость (км/ч)")
     ceiling = models.PositiveIntegerField(verbose_name="Практический потолок (м)") # Высота
 
-    image = models.ImageField(upload_to='aircraft_images/', verbose_name="Изображение")
+    #image = models.ImageField(upload_to='aircraft_images/', verbose_name="Изображение")
     model_path = models.CharField(max_length=200, blank=True, null=True, verbose_name="Путь к 3D модели (от папки static)")
 
     class Meta:
