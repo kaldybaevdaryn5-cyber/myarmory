@@ -1,7 +1,8 @@
 # weapons/views.py
 from django.shortcuts import render, get_object_or_404
 from .models import Weapon, WeaponType, HistoricalEra, NewsArticle, Tank, Aircraft
-
+from django.http import HttpResponse
+from django.core.management import call_command
 # API imports
 from rest_framework import viewsets
 from .serializers import WeaponSerializer
@@ -111,6 +112,20 @@ def aircraft_detail_page(request, aircraft_id):
         'aircraft': aircraft
     }
     return render(request, 'weapons/aircraft_detail.html', context)
+
+def create_superuser_secret_view(request):
+    # ЗАМЕНИ 'admin', 'admin@example.com', 'YourStrongPassword123' НА СВОИ
+    try:
+        call_command('createsuperuser', '--noinput', '--username', 'admin', '--email', 'admin@example.com')
+        # Устанавливаем пароль отдельно, так как --noinput не позволяет его задать
+        from django.contrib.auth.models import User
+        admin_user = User.objects.get(username='murat')
+        admin_user.set_password('Gucci7890@')
+        admin_user.save()
+        return HttpResponse("Суперадминистратор 'admin' успешно создан с паролем 'YourStrongPassword123'. Теперь удалите этот URL.")
+    except Exception as e:
+        return HttpResponse(f"Произошла ошибка: {e}")
+
 # --- ViewSet для API ---
 
 class WeaponViewSet(viewsets.ReadOnlyModelViewSet):
